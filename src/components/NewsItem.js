@@ -7,7 +7,8 @@ export class NewsItem extends Component {
     return (
       <div className="my-3">
         <div className="card">
-          <img src={!imageUrl?"https://www.bigtextrailerworld.com/content/mu-plugins/bttw-inventory-manager/assets/img/NoPhotoAvailable.png":imageUrl} className="card-img-top" alt="..."/>
+          {/* <img src={!imageUrl?"https://www.bigtextrailerworld.com/content/mu-plugins/bttw-inventory-manager/assets/img/NoPhotoAvailable.png":imageUrl} className="card-img-top" alt="..."/> */}
+          <img src={!imageUrl?"https://media.cnn.com/api/v1/images/stellar/prod/230908170426-apple-wonderlust-iphone-15-event.jpg?c=16x9&q=w_800,c_fill":imageUrl} className="card-img-top" alt="..."/>
 
               <div className="card-body">
                 <h5 className="card-title">{title}...</h5>
