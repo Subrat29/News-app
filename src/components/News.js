@@ -18,17 +18,21 @@ export class News extends Component {
     category: PropTypes.string
   }
 
+  // capitalize function
+  capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   // 1st constructor - its runs sabse phle
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       articles: [],
       loading: true,
       page:1
     };
-  } 
-
+    document.title = `${this.capitalizeFirstLetter(this.props.category)} - NewsApp`;
+  }
 
   async updateNews(){
     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=bdd705d6e7b940068869ddcdbab42604&page=${this.state.page}&pageSize=${this.props.pageSize}`;
