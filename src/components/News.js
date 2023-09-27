@@ -1,110 +1,129 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 import PropTypes from 'prop-types'
 import InfiniteScroll from "react-infinite-scroll-component";
 
-export class News extends Component {
+// export class News extends Component {
 
-  //props types
-  static defaultProps = {
-    country: "in",
-    pageSize: 5,
-    category: "general"
-  }
+  // //props types
+  // static defaultProps = {
+  //   country: "in",
+  //   pageSize: 5,
+  //   category: "general"
+  // }
 
-  static propsProps = {
-    country: PropTypes.string,
-    pageSize: PropTypes.number,
-    category: PropTypes.string
-  }
+  // static propsTypes = {
+  //   country: PropTypes.string,
+  //   pageSize: PropTypes.number,
+  //   category: PropTypes.string
+  // }
+
+
+  // convert it into function based components
+  const News = (props)=>{
+
+    const [articles, setArticles] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [page, setPage] = useState(1)
+    const [totalResults, setTotalResults] = useState(0)
+
+  //   document.title = `${this.capitalizeFirstLetter(props.category)} - NewsApp`;
 
   // capitalize function
-  capitalizeFirstLetter = (string) => {
+  const capitalizeFirstLetter = async (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   // 1st constructor - its runs sabse phle
-  constructor(props){
-    super(props);
-    this.state = {
-      articles: [],
-      loading: true,
-      page:1,
-      totalResults: 0
-    };
-    document.title = `${this.capitalizeFirstLetter(this.props.category)} - NewsApp`;
-  }
+  // constructor(props){
+  //   super(props);
+  //   this.state = {
+  //     articles: [],
+  //     loading: true,
+  //     page:1,
+  //     totalResults: 0
+  //   };
+  //   document.title = `${this.capitalizeFirstLetter(this.props.category)} - NewsApp`;
+  // }
 
-  async updateNews(){
-    this.props.setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-    this.setState({loading: true});
+  const updateNews = async () =>{
+    props.setProgress(10);
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    setLoading(true);
     let data = await fetch(url);
-    this.props.setProgress(40);
+    props.setProgress(40);
     let parsedData = await data.json();
-    this.props.setProgress(70);
-    this.setState({articles: parsedData.articles,
-      totalResults: parsedData.totalResults,
-      loading: false
-      });
-      this.props.setProgress(100);
+    props.setProgress(70);
+    setArticles(parsedData.articles)
+    setTotalResults(parsedData.totalResults)
+    setLoading(false)
+    props.setProgress(100);
   }
 
-  async updateNews2(){
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+  const updateNews2 = async ()=>{
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
     // this.setState({loading: true});
     let data = await fetch(url);
     let parsedData = await data.json();
-    this.setState({
-      articles: this.state.articles.concat(parsedData.articles),
-      totalResults: parsedData.totalResults,
-      // loading: false
-      });
+    setArticles(articles.concat(parsedData.articles))
+    setTotalResults(parsedData.totalResults)
+
+    // setarticles({
+    //   articles: articles.concat(parsedData.articles),
+    //   totalResults: parsedData.totalResults,
+    //   // loading: false
+    //   });
   }
 
   // 3rd componentDidMount is run after the render method run or run at last
   // ye hi api se news lekar ayega maam
-  async componentDidMount(){
-    this.updateNews();
+  // componentDidMount = async()=>{
+  //   updateNews();
+  // }
+
+  useEffect(() => {
+    updateNews();
+  }, [])
+  
+
+  const handlePreviousClick = async ()=>{
+    setPage(page - 1);
+    updateNews();
   }
 
-  handlePreviousClick = async ()=>{
-    this.setState({page: this.state.page - 1});
-    this.updateNews();
+  const handleNextClick = async ()=>{
+    setPage(page + 1);
+    updateNews();
   }
 
-  handleNextClick = async ()=>{
-    this.setState({page: this.state.page + 1});
-    this.updateNews();
-  }
-
-  fetchMoreData = async () => {
-    this.setState({page: this.state.page + 1})
-    this.updateNews2();
+  const fetchMoreData = async () => {
+    setPage(page + 1)
+    updateNews2();
   };
 
   // 2nd then render runs
-  render() {
+  // render() {
+    
     return (
       <>
         <h1 className="text-center" style={{margin: '35px 0px'}}>NewsApp - Top Headlines</h1>
 
           {/* loading GIF */}
-          {this.state.loading && <Spinner/>}
+          {loading && <Spinner/>}
 
           {/* Infinite scroll */}
           < InfiniteScroll
-            dataLength={this.state.articles.length}
-            next={this.fetchMoreData}
-            hasMore={this.state.articles.length !== this.state.totalResults}
+            dataLength={articles.length}
+            next={fetchMoreData}
+            hasMore={articles.length !== totalResults}
             loader={<Spinner/>}
           >
 
             <div className="container">
                   <div className="row">
                     {/* {!this.state.loading && this.state.articles.map((element) => { */}
-                    {this.state.articles.map((element) => {
+                    {articles.map((element) => {
                       return <div className="col-md-4" key={element.url}>
                         <NewsItem
                           // title={element.title?element.title.slice(0,45):""}
@@ -131,6 +150,18 @@ export class News extends Component {
       </>
     );
   }
+// }
+
+News.defaultProps = {
+    country: "in",
+    pageSize: 5,
+    category: "general"
+}
+
+News.propTypes = {
+    country: PropTypes.string,
+    pageSize: PropTypes.number,
+    category: PropTypes.string
 }
 
 export default News;
