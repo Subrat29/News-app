@@ -23,7 +23,7 @@ import React from "react";
             </span>
           </div>
 
-          <img src={!imageUrl?"https://www.bigtextrailerworld.com/content/mu-plugins/bttw-inventory-manager/assets/img/NoPhotoAvailable.png":imageUrl} className="card-img-top" alt="OOPS! Image not Found"/>
+          <img src={!imageUrl?"https://www.bigtextrailerworld.com/content/mu-plugins/bttw-inventory-manager/assets/img/NoPhotoAvailable.png":imageUrl} className="card-img-top" alt="Not Available"/>
               <div className="card-body">
                 <h5 className="card-title">{title?title:"Unknown"}...</h5>
                 <p className="card-text"> {description}...</p>

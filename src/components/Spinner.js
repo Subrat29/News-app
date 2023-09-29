@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import loading3 from './loading3.gif'
 
 // export class Spinner extends Component {
