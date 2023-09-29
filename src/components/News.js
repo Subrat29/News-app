@@ -69,7 +69,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
   useEffect(() => {
     document.title = `${capitalizeFirstLetter(props.category)} - NewsApp`;
     updateNews();
-    //eslint-disable-next-line
   }, [])
   
 
