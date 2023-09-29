@@ -28,10 +28,9 @@ import InfiniteScroll from "react-infinite-scroll-component";
     const [page, setPage] = useState(1)
     const [totalResults, setTotalResults] = useState(0)
 
-  //   document.title = `${this.capitalizeFirstLetter(props.category)} - NewsApp`;
 
   // capitalize function
-  const capitalizeFirstLetter = async (string) => {
+  const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
@@ -61,21 +60,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
     props.setProgress(100);
   }
 
-  const updateNews2 = async ()=>{
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
-    // this.setState({loading: true});
-    let data = await fetch(url);
-    let parsedData = await data.json();
-    setArticles(articles.concat(parsedData.articles))
-    setTotalResults(parsedData.totalResults)
-
-    // setarticles({
-    //   articles: articles.concat(parsedData.articles),
-    //   totalResults: parsedData.totalResults,
-    //   // loading: false
-    //   });
-  }
-
   // 3rd componentDidMount is run after the render method run or run at last
   // ye hi api se news lekar ayega maam
   // componentDidMount = async()=>{
@@ -83,23 +67,31 @@ import InfiniteScroll from "react-infinite-scroll-component";
   // }
 
   useEffect(() => {
+    document.title = `${capitalizeFirstLetter(props.category)} - NewsApp`;
     updateNews();
+    //eslint-disable-next-line
   }, [])
   
 
-  const handlePreviousClick = async ()=>{
-    setPage(page - 1);
-    updateNews();
-  }
+  // const handlePreviousClick = async ()=>{
+  //   setPage(page - 1);
+  //   updateNews();
+  // }
 
-  const handleNextClick = async ()=>{
-    setPage(page + 1);
-    updateNews();
-  }
+  // const handleNextClick = async ()=>{
+  //   setPage(page + 1);
+  //   updateNews();
+  // }
 
+
+  // setPage is asynchronous fn therefore it takes some ms time to change page but url is fetch fastly therefore we manually do it in url then setPage = page + 1
   const fetchMoreData = async () => {
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
     setPage(page + 1)
-    updateNews2();
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    setArticles(articles.concat(parsedData.articles))
+    setTotalResults(parsedData.totalResults)
   };
 
   // 2nd then render runs
@@ -107,7 +99,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
     
     return (
       <>
-        <h1 className="text-center" style={{margin: '35px 0px'}}>NewsApp - Top Headlines</h1>
+        <h1 className="text-center" style={{margin: '35px 0px', marginTop: '90px'}}>NewsApp - Top Headlines</h1>
 
           {/* loading GIF */}
           {loading && <Spinner/>}
