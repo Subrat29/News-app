@@ -56,7 +56,3 @@ npm start
 - ## Contributing
 
 Contributions are welcome! Feel free to open issues and submit pull requests to help enhance this project.🤝😁
-
-## Contributing
-
-Contributions are welcome! Please fork and submit pull requests.
