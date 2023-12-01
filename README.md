@@ -27,13 +27,13 @@ Before you begin, ensure you have met the following requirements:
 1. Clone the repository or download the ZIP file.
 
 ```bash
-git clone https://github.com/Prodigy-InfoTech/Web-Development-Projects.git
+git clone https://github.com/Subrat29/News-app.git
 ```
 
 2. Open the project folder.
 
 ```bash
-cd News App
+cd News-app
 ```
 
 3. Install the project dependencies:
@@ -52,6 +52,10 @@ npm start
 
 - Explore the app, browse articles, and test its features.
 - Customize the app as per your preferences and development needs.
+
+- ## Contributing
+
+Contributions are welcome! Feel free to open issues and submit pull requests to help enhance this project.🤝😁
 
 ## Contributing
 
