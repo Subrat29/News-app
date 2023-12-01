@@ -53,6 +53,6 @@ npm start
 - Explore the app, browse articles, and test its features.
 - Customize the app as per your preferences and development needs.
 
-- ## Contributing
+## Contributing
 
 Contributions are welcome! Feel free to open issues and submit pull requests to help enhance this project.🤝😁
